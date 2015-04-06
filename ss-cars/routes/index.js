@@ -2,18 +2,13 @@ var express = require('express');
 var https = require('follow-redirects').https;
 var cheerio = require('cheerio');
 var async = require('async');
+var config = require('../config');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // TODO: move links to config
-  var urls = [
-    'https://www.ss.lv/ru/transport/cars/toyota/corolla/filter/fDgSeF4SEzwT.html',
-    'https://www.ss.lv/ru/transport/cars/toyota/corolla/fDgTeF4SAzp4FD4eFFV8FQ==.html'
-  ];
-
   var functions = [];
-  urls.forEach(function(url) {
+  config.urls.forEach(function(url) {
     functions.push(function(callback) {
       https.get(url, function(response) {
         var body = '';
@@ -49,8 +44,7 @@ function parseResponse(body) {
     var row = $(this);
 
     var price = row.find('.msga2-o').last().text();
-    // TODO: move price to config
-    if (!price || parseInt(price.replace(',', '')) > 6000) {
+    if (!price || config.maxPrice && parseInt(price.replace(',', '')) > config.maxPrice) {
       return;
     }
 
