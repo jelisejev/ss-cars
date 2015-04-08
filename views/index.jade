@@ -4,12 +4,13 @@ block content
   table
     for section in sections
       tr
-        th(colspan=4)=section.model
+        th(colspan=5)=section.model
       for ad in section.ads
         tr
           td
             img(src=ad.imageUrl)
           td
             a(href=ad.url)=ad.title
+          td=ad.year
           td=ad.run
           td=ad.price

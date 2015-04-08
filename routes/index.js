@@ -68,6 +68,7 @@ function parseResponse(body) {
       url: 'https://ss.lv' + row.find('.msg2 a').attr('href'),
       price: row.find('.msga2-o').last().text(),
       imageUrl: row.find('.msga2 img').attr('src'),
+      year: row.find('.msga2-o').first().text(),
       run: run
     });
   });
