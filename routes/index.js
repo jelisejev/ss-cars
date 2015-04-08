@@ -27,18 +27,29 @@ router.get('/', function(req, res, next) {
   });
 
   async.parallel(functions, function(error, result) {
-    var ads = [];
-    result.forEach(function(list) {
-      ads = ads.concat(list);
+    var sections = {};
+    result.forEach(function(data) {
+      if (typeof sections[data.model] === 'undefined') {
+        sections[data.model] = {
+          model: data.model,
+          ads: []
+        }
+      }
+
+      sections[data.model].ads = sections[data.model].ads.concat(data.ads);
     });
 
-    res.render('index', { ads: ads });
+    res.render('index', { sections: sections });
   });
 });
 
 function parseResponse(body) {
   var $ = cheerio.load(body);
 
+  // parse title
+  var model = $('title').text().split(',')[0].replace('SS.lv ', '');
+
+  // parse list
   var list = [];
   $('#filter_frm table').eq(2).find('tr').each(function() {
     var row = $(this);
@@ -46,7 +57,7 @@ function parseResponse(body) {
     var price = row.find('.msga2-o').last().text();
     var run = row.find('.msga2-r').text();
     if (!price
-        || config.maxPrice && parseInt(price.replace(',', '')) > config.maxPrice
+        || config.maxPrice && (isNaN(parseInt(price.replace(',', ''))) || parseInt(price.replace(',', '')) > config.maxPrice)
         || config.maxRun && parseInt(run) > config.maxRun) {
 
       return;
@@ -61,7 +72,10 @@ function parseResponse(body) {
     });
   });
 
-  return list;
+  return {
+    model: model,
+    ads: list
+  }
 }
 
 module.exports = router;

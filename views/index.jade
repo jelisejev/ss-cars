@@ -2,11 +2,14 @@ extends layout
 
 block content
   table
-    for ad in ads
+    for section in sections
       tr
-        td
-          img(src=ad.imageUrl)
-        td
-          a(href=ad.url)=ad.title
-        td=ad.run
-        td=ad.price
+        th(colspan=4)=section.model
+      for ad in section.ads
+        tr
+          td
+            img(src=ad.imageUrl)
+          td
+            a(href=ad.url)=ad.title
+          td=ad.run
+          td=ad.price
