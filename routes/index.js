@@ -44,13 +44,20 @@ function parseResponse(body) {
     var row = $(this);
 
     var price = row.find('.msga2-o').last().text();
-    if (!price || config.maxPrice && parseInt(price.replace(',', '')) > config.maxPrice) {
+    var run = row.find('.msga2-r').text();
+    if (!price
+        || config.maxPrice && parseInt(price.replace(',', '')) > config.maxPrice
+        || config.maxRun && parseInt(run) > config.maxRun) {
+
       return;
     }
 
     list.push({
       title: row.find('.msg2 a').text(),
-      price: row.find('.msga2-o').last().text()
+      url: 'https://ss.lv' + row.find('.msg2 a').attr('href'),
+      price: row.find('.msga2-o').last().text(),
+      imageUrl: row.find('.msga2 img').attr('src'),
+      run: run
     });
   });
 

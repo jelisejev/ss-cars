@@ -1,4 +1,5 @@
 module.exports = {
     urls: [],
-    maxPrice: null
+    maxPrice: null,
+    maxRun: null
 };

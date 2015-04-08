@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  for ad in ads
-    li #{ad.title} (#{ad.price})
+  table
+    for ad in ads
+      tr
+        td
+          img(src=ad.imageUrl)
+        td
+          a(href=ad.url)=ad.title
+        td=ad.run
+        td=ad.price
