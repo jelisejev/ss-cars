@@ -69,6 +69,7 @@ function parseResponse(body) {
       price: row.find('.msga2-o').last().text(),
       imageUrl: row.find('.msga2 img').attr('src'),
       year: row.find('.msga2-o').first().text(),
+      engine: row.find('.msga2-o').eq(1).text(),
       run: run
     });
   });
