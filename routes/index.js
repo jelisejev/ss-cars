@@ -56,9 +56,11 @@ function parseResponse(body) {
 
     var price = row.find('.msga2-o').last().text();
     var run = row.find('.msga2-r').text();
+    var year = row.find('.msga2-o').first().text();
     if (!price
         || config.maxPrice && (isNaN(parseInt(price.replace(',', ''))) || parseInt(price.replace(',', '')) > config.maxPrice)
-        || config.maxRun && parseInt(run) > config.maxRun) {
+        || config.maxRun && parseInt(run) > config.maxRun
+        || config.minYear && parseInt(year) < config.minYear) {
 
       return;
     }
@@ -68,7 +70,7 @@ function parseResponse(body) {
       url: 'https://ss.lv' + row.find('.msg2 a').attr('href'),
       price: row.find('.msga2-o').last().text(),
       imageUrl: row.find('.msga2 img').attr('src'),
-      year: row.find('.msga2-o').first().text(),
+      year: year,
       engine: row.find('.msga2-o').eq(1).text(),
       run: run
     });
