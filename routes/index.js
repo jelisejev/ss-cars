@@ -58,10 +58,12 @@ function parseResponse(body) {
     var run = parseInt(row.find('.msga2-r').text(), 10);
     var year = row.find('.msga2-o').first().text();
     var title = row.find('.msg2 a').text();
+    var engine = row.find('.msga2-o').eq(1).text();
     if (!price
         || config.maxPrice && (isNaN(parseInt(price.replace(',', ''))) || parseInt(price.replace(',', '')) > config.maxPrice)
         || config.maxRun && run > config.maxRun
-        || config.minYear && parseInt(year) < config.minYear) {
+        || config.minYear && parseInt(year) < config.minYear
+        || parseFloat(engine) <= 1.4) {
 
       return;
     }
@@ -77,7 +79,7 @@ function parseResponse(body) {
       price: row.find('.msga2-o').last().text(),
       imageUrl: row.find('.msga2 img').attr('src'),
       year: year,
-      engine: row.find('.msga2-o').eq(1).text(),
+      engine: engine,
       run: run,
       alert: alert
     });
