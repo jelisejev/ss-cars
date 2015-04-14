@@ -68,10 +68,12 @@ function parseResponse(body) {
       return;
     }
 
+    var titleLowerCase = title.toLowerCase();
     var alert = run > 120
-      || title.toLowerCase().indexOf('герм') !== -1
-      || title.toLowerCase().indexOf('vācij') !== -1
-      || title.toLowerCase().indexOf('vacij') !== -1;
+      || titleLowerCase.indexOf('герм') !== -1
+      || titleLowerCase.indexOf('vācij') !== -1
+      || titleLowerCase.indexOf('vācij') !== -1
+      || titleLowerCase.indexOf('brc') !== -1;
 
     list.push({
       title: title,
