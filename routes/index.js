@@ -55,24 +55,31 @@ function parseResponse(body) {
     var row = $(this);
 
     var price = row.find('.msga2-o').last().text();
-    var run = row.find('.msga2-r').text();
+    var run = parseInt(row.find('.msga2-r').text(), 10);
     var year = row.find('.msga2-o').first().text();
+    var title = row.find('.msg2 a').text();
     if (!price
         || config.maxPrice && (isNaN(parseInt(price.replace(',', ''))) || parseInt(price.replace(',', '')) > config.maxPrice)
-        || config.maxRun && parseInt(run) > config.maxRun
+        || config.maxRun && run > config.maxRun
         || config.minYear && parseInt(year) < config.minYear) {
 
       return;
     }
 
+    var alert = run > 120
+      || title.toLowerCase().indexOf('герм') !== -1
+      || title.toLowerCase().indexOf('vācij') !== -1
+      || title.toLowerCase().indexOf('vacij') !== -1;
+
     list.push({
-      title: row.find('.msg2 a').text(),
+      title: title,
       url: 'https://ss.lv' + row.find('.msg2 a').attr('href'),
       price: row.find('.msga2-o').last().text(),
       imageUrl: row.find('.msga2 img').attr('src'),
       year: year,
       engine: row.find('.msga2-o').eq(1).text(),
-      run: run
+      run: run,
+      alert: alert
     });
   });
 

@@ -7,6 +7,9 @@ a {
   color: #00B7FF;
 }
 
+table tr.alert {
+  background: #FFF4D1;
+}
 table th {
   height: 50px;
 }
